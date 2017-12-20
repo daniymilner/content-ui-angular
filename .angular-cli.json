@@ -21,7 +21,11 @@
       "styles": [
         "styles.styl"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/popper.js/dist/umd/popper.js",
+        "../node_modules/jquery/dist/jquery.js",
+        "../node_modules/keycloak-js/dist/keycloak.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

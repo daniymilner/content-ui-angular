@@ -1,16 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { KeycloakService } from '../../keycloak/keycloak.service';
 
 export class ContentHttpService {
   private routes = {
     getList: 'https://develop.ewizard.io/presentation/api/v1/presentation?skip=0&top=10',
-  };
-
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJhQ3Z5SjljTWhMRUhMZi1rY21qaUFIMVRjRlkwWm9yamxXWUltMkFrNVFvIn0.eyJqdGkiOiIwNmI0Mjc3OC1iZGRhLTQ1ZGQtYjljZS05YjJhYjk4ZTQzNjUiLCJleHAiOjE1MTM3ODY2OTEsIm5iZiI6MCwiaWF0IjoxNTEzNzg0ODkxLCJpc3MiOiJodHRwczovL2RldmVsb3AuZXdpemFyZC5pby9hdXRoL3JlYWxtcy9kZXZlbG9wIiwiYXVkIjoiZXdpemFyZCIsInN1YiI6IjM5ZTczOTljLWEzNTctNGUxZC1hMzlkLTU1MGVmMmIzMDhlYiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImV3aXphcmQiLCJub25jZSI6ImMzNzMzM2Q5LWFkMGQtNDhkMC04ZWE0LTllYTU5OWQxYzJhNSIsImF1dGhfdGltZSI6MTUxMzc4NDg5MSwic2Vzc2lvbl9zdGF0ZSI6IjQzOTNjMWJkLWNkZDItNDA0MS05MTE1LTdkYmQ1NjRiYmZmOSIsImFjciI6IjEiLCJjbGllbnRfc2Vzc2lvbiI6IjNiZjgzZjdhLTJiZjQtNDY3NC05YjIyLThmMmE3MTVmZWRmYyIsImFsbG93ZWQtb3JpZ2lucyI6WyIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJzeXN0ZW0iLCJ0ZXN0Iiwib2ZmbGluZV9hY2Nlc3MiLCJ1c2VyIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsInZpZXctcHJvZmlsZSJdfX0sInNldHRpbmdzIjoiaHR0cHM6Ly9kZXZlbG9wLmV3aXphcmQuaW8vc2V0dGluZ3MiLCJjb21tZW50cyI6Imh0dHBzOi8vZGV2ZWxvcC5ld2l6YXJkLmlvL2NvbW1lbnRzIiwiZW1haWxfbGF5b3V0IjoiaHR0cHM6Ly9kZXZlbG9wLmV3aXphcmQuaW8vZW1haWwtbGF5b3V0IiwiZ3JvdXBzIjpbIi9HbG9iYWwiXSwicHJlZmVycmVkX3VzZXJuYW1lIjoiYS5vbGVueXVrIiwic3RvcmUiOiJodHRwczovL2RldmVsb3AuZXdpemFyZC5pby9zdG9yZSIsImdpdmVuX25hbWUiOiJBbGV4Iiwic2hhcmluZyI6Imh0dHBzOi8vZGV2ZWxvcC5ld2l6YXJkLmlvL3NoYXJpbmciLCJwdWJsaXNoX2dhdGV3YXkiOiJodHRwczovL2RldmVsb3AuZXdpemFyZC5pby9wdWJsaXNoIiwicHJlc2VudGF0aW9uIjoiaHR0cHM6Ly9kZXZlbG9wLmV3aXphcmQuaW8vcHJlc2VudGF0aW9uIiwiZWRldGFpbGluZyI6Imh0dHBzOi8vZGV2ZWxvcC5ld2l6YXJkLmlvL2VkZXRhaWxlcnMiLCJhc3NldHMiOiJodHRwczovL2RldmVsb3AuZXdpemFyZC5pby9hc3NldHMiLCJmb250cyI6Imh0dHBzOi8vZGV2ZWxvcC5ld2l6YXJkLmlvL2ZvbnQiLCJjb21wb25lbnRfbGlicmFyeSI6Imh0dHBzOi8vZGV2ZWxvcC5ld2l6YXJkLmlvL2NvbXBvbmVudHMiLCJld2l6YXJkIjoiaHR0cHM6Ly9kZXZlbG9wLmV3aXphcmQuaW8iLCJjb21wYW55X25hbWUiOiJNdWx0aXRlbmFuY3kiLCJuYW1lIjoiQWxleCBPbGVueXVrIiwicHVsc2UiOiJodHRwczovL2RldmVsb3AuZXdpemFyZC5pby9wdWxzZSIsImVtYWlsc19zZXJ2aWNlIjoiaHR0cHM6Ly9kZXZlbG9wLmV3aXphcmQuaW8vZW1haWxzIiwiZmFtaWx5X25hbWUiOiJPbGVueXVrIiwiYWNjb3VudCI6Imh0dHBzOi8vZGV2ZWxvcC5ld2l6YXJkLmlvL2FjY291bnQiLCJlbWFpbCI6ImEub2xlbnl1a0B2aXNldmVuLmNvbSJ9.Qk5l7hHMvotSrEXAOzETmm8dVxgoYb1n5996sQ5gCI6nQiN61F99Ev825QIUdP8K4t-x6Ee7HHlfD42jyCB_CTK7hj5HVfwByktixdBv0T-ny6OezixrL0TXp9njLZB_AiHFNMk6nVkt7zCx6EDfjjl40fY1PwLCk-3BXvpLoxAjmfNrAmWRPyrQfwOsTpXad3XD9GaH2a2IuSSVl16rPb8xxdziG-aOMzqSgPwrjOnGEzQ5IFKjmHCj3WL8Uid71NXpBWAb0U7PAV4xeSy0WUuwI0XgDPTKX562i_pOTfK-K4m-dggLwppQpvze13FFPLoiwlxlXfKEnXxACYjtrA',
-    }),
   };
 
   constructor(private client: HttpClient) {
@@ -19,6 +13,15 @@ export class ContentHttpService {
 
   getList(type) {
     const route = this.routes.getList.replace('{type}', type);
-    return this.client.get<Observable<any>>(route, this.httpOptions);
+    return this.client.get<Observable<any>>(route, this.getHeaders(KeycloakService.getToken()));
+  }
+
+  private getHeaders(token: string) {
+    return {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      }),
+    };
   }
 }

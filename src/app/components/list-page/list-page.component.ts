@@ -13,16 +13,23 @@ export class ListPageComponent implements OnInit {
   private service: IContentService;
 
   list$: Observable<any>;
+  list: Array<any> = [];
 
   constructor(private activeService: ActiveContentService) {
   }
 
   ngOnInit() {
     this.service = this.activeService.getActiveService();
-    this.list$ = this.service
+    //this.list$ = this.service
+    //  .getList(this.service.getServiceKey())
+    //  .pipe(
+    //    map(res => res.data.list),
+    //  );
+    this.service
       .getList(this.service.getServiceKey())
-      .pipe(
-        map(res => res.data.list),
-      );
+      .subscribe((res) => {
+        this.list = res.data.list;
+        console.log(this.list);
+      })
   }
 }
