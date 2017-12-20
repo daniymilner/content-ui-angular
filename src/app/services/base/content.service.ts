@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { IContentService } from '../../interfaces/icontent-service';
 
-export class ContentService implements IContentService {
+export abstract class ContentService implements IContentService {
   constructor(private baseHttp) {
   }
 

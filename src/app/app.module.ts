@@ -52,11 +52,11 @@ export class MaterialModule {
     ActiveServiceResolver,
     EmailsService,
     EmailsHttpService,
-    //{
-    //  provide: HTTP_INTERCEPTORS,
-    //  useClass: KeycloakHttpInterceptor,
-    //  multi: true
-    //},
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: KeycloakHttpInterceptor,
+      multi: true
+    },
   ],
   bootstrap: [AppComponent],
 })

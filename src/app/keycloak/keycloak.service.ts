@@ -52,12 +52,15 @@ export class KeycloakService {
           .updateToken(5)
           .success(() => {
             observer.next(<string>KeycloakService.auth.authz.token);
+            observer.complete();
           })
           .error(() => {
             observer.error(new Error('Failed to refresh token'));
+            observer.complete();
           });
       } else {
         observer.error(new Error('Not logged in'));
+        observer.complete();
       }
     });
   }
