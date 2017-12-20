@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { switchMap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 import { KeycloakService } from '../keycloak/keycloak.service';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class KeycloakHttpInterceptor implements HttpInterceptor {
     //return KeycloakService
     //  .updateToken()
     //  .pipe(
-    //    switchMap((token) => {
+    //    mergeMap((token) => {
           const authReq = req.clone(
             {
               headers: req.headers.set('Authorization', `Bearer ${KeycloakService.getToken()}`),
