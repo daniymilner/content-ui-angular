@@ -1,5 +1,1 @@
-<ul>
-  <li *ngFor="let item of list$ | async">
-    {{item.name}}
-  </li>
-</ul>
+<app-content-card *ngFor="let item of list$ | async" [content]="item"></app-content-card>

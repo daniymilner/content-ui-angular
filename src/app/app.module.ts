@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { MatButtonModule, MatIconModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatIconModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
 import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MainComponent } from './components/general/main/main.component';
@@ -18,6 +18,7 @@ import { EmailsService } from './services/emails/emails.service';
 import { EmailsHttpService } from './services/emails/emails-http.service';
 import { KeycloakHttpInterceptor } from './interceptors/keycloak-http.interceptor';
 import { KeycloakService } from './keycloak/keycloak.service';
+import { ContentCardComponent } from './components/list-page/content-card/content-card.component';
 
 @NgModule({
   exports: [
@@ -25,6 +26,7 @@ import { KeycloakService } from './keycloak/keycloak.service';
     MatSidenavModule,
     MatIconModule,
     MatButtonModule,
+    MatCardModule,
   ],
 })
 export class MaterialModule {
@@ -38,6 +40,7 @@ export class MaterialModule {
     SubtoolbarComponent,
     PageComponent,
     ListPageComponent,
+    ContentCardComponent,
   ],
   imports: [
     BrowserModule,
